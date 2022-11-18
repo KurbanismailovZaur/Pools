@@ -151,22 +151,4 @@ namespace Redcode.Pools
         public void TakeToPool<T>(string name, Component component) where T : Component => GetPool<T>(name).Take(component);
         #endregion
     }
-
-#if UNITY_EDITOR
-    [InitializeOnLoad]
-    internal class PoolManagerInitializer
-    {
-        static PoolManagerInitializer()
-        {
-            var files = Directory.GetFiles("Assets", "PoolManager.cs", SearchOption.AllDirectories);
-            var poolManagerFile = files.FirstOrDefault(file => file.Replace('\\', '/').EndsWith("Redcode/Pools/Scripts/PoolManager.cs"));
-
-            var script = ((MonoImporter)AssetImporter.GetAtPath(poolManagerFile)).GetScript();
-            var order = MonoImporter.GetExecutionOrder(script);
-
-            if (order != -1)
-                MonoImporter.SetExecutionOrder(script, -1);
-        }
-    }
-#endif
 }
